@@ -1,0 +1,36 @@
+{
+  "name": "movies-explorer-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/afedr/movies-explorer-api.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/afedr/movies-explorer-api/issues"
+  },
+  "homepage": "https://github.com/afedr/movies-explorer-api#readme",
+  "dependencies": {
+    "bcrypt": "^5.1.0",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.1",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "express-winston": "^4.2.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.6.7",
+    "validator": "^13.7.0",
+    "winston": "^3.8.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  }
+}
