@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 const ValidationError = require('../errors/ValidationError');
 const NotFoundError = require('../errors/NotFoundError');
 const UnauthorizedError = require('../errors/UnauthorizedError');
+const ConflictError = require('../errors/ConflictError');
 const User = require('../models/users');
 const bcrypt = require('bcryptjs');
 
