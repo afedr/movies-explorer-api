@@ -8,23 +8,22 @@ const bcrypt = require('bcryptjs');
 
 const { NODE_ENV, JWT_SECRET } = process.env;
 
-module.exports.getUser = (req, res, next) => {
-  User.findById(req.user._id)
-  .then((user) => {
-    if (!user) {
-      return next(new NotFoundError('Запрашиваемый пользователь не найден'));
-    }
-    return res.send(user);
-  })
-  .catch((err) => {
-    if (err.name === 'CastError') {
-      next(new ValidationError('Переданы некорректные данные'));
-    } else {
-      next(err);
-    }
-  });
+  module.exports.getUser = (req, res, next) => {
+    User.findById(req.user._id)
+    .then((user) => {
+      if (!user) {
+        return next(new NotFoundError('Запрашиваемый пользователь не найден'));
+      }
+      return res.send(user);
+    })
+    .catch((err) => {
+      if (err.name === 'CastError') {
+        next(new ValidationError('Переданы некорректные данные'));
+      } else {
+        next(err);
+      }
+    });
 };
-
 
 module.exports.updateProfile = (req, res, next) => {
   const { email, name } = req.body;
@@ -63,7 +62,6 @@ module.exports.createUser = (req, res, next) => {
       return res.send(response);
     })
     .catch((err) => {
-
       if (err.name === 'ValidationError') {
         next(new ValidationError('Переданы некорретные данные'));
       } else if (err.code === 11000) {
@@ -74,26 +72,17 @@ module.exports.createUser = (req, res, next) => {
     });
 };
 
-
 //signin
 module.exports.login = (req, res, next) => {
   const { email, password } = req.body;
   return User.findUserByCredentials(email, password)
     .then((user) => {
-
       const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'some-secret-key', {
         expiresIn: '7d',
       });
       return res.send({ token });
     })
     .catch((err) => {
-      console.log(err)
       next(new UnauthorizedError('Неверный логин или пароль'));
     });
 };
-
-
-
-
-
-
