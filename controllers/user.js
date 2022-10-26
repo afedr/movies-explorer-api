@@ -1,15 +1,15 @@
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
 const ValidationError = require('../errors/ValidationError');
 const NotFoundError = require('../errors/NotFoundError');
 const UnauthorizedError = require('../errors/UnauthorizedError');
 const ConflictError = require('../errors/ConflictError');
 const User = require('../models/users');
-const bcrypt = require('bcryptjs');
 
 const { NODE_ENV, JWT_SECRET } = process.env;
 
-  module.exports.getUser = (req, res, next) => {
-    User.findById(req.user._id)
+module.exports.getUser = (req, res, next) => {
+  User.findById(req.user._id)
     .then((user) => {
       if (!user) {
         return next(new NotFoundError('Запрашиваемый пользователь не найден'));
@@ -27,7 +27,7 @@ const { NODE_ENV, JWT_SECRET } = process.env;
 
 module.exports.updateProfile = (req, res, next) => {
   const { email, name } = req.body;
-  User.findByIdAndUpdate(req.user._id, {email, name}, {
+  User.findByIdAndUpdate(req.user._id, { email, name }, {
     new: true,
     runValidators: true,
     upsert: false,
@@ -42,8 +42,7 @@ module.exports.updateProfile = (req, res, next) => {
     });
 };
 
-
-//signup
+// signup
 module.exports.createUser = (req, res, next) => {
   const {
     name, email, password,
@@ -72,7 +71,7 @@ module.exports.createUser = (req, res, next) => {
     });
 };
 
-//signin
+// signin
 module.exports.login = (req, res, next) => {
   const { email, password } = req.body;
   return User.findUserByCredentials(email, password)
@@ -82,7 +81,7 @@ module.exports.login = (req, res, next) => {
       });
       return res.send({ token });
     })
-    .catch((err) => {
+    .catch(() => {
       next(new UnauthorizedError('Неверный логин или пароль'));
     });
 };

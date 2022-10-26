@@ -1,9 +1,8 @@
-# Дипломный проект Movies Explorer
+# Movie Explorer API Server
 
-## О проекте
-Бэкенд часть приложения Movie Explorer на Express.js. Все роуты защищены, используется валидация Joi и celebrate, реализована централизованная обработка ошибок, включено логирование запросов и ошибок
+Node.js application, uses Express.js library. Application to connect and interact with cloud MongoDB.
 
-## Список технологий
+## Technologies
 
 * REST APi 
 * Node.js 
@@ -13,6 +12,6 @@
 ## Links to test:
 * IP - 178.154.230.75
 
-* Бэкенд - api.movies-explorer.anfed.nomoredomains.icu
+* Backend - https://api.movies-explorer.anfed.nomoredomains.icu
 
 * Link for repository - https://github.com/afedr/movies-explorer-api

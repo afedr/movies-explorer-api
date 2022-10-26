@@ -8,6 +8,7 @@ const auth = require('./middlewares/auth');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const { PORT = 3000 } = process.env;
+const { DB_ADDRESS = 'mongodb://localhost:27017/bitfilmsdb' } = process.env;
 
 const app = express();
 
@@ -42,7 +43,7 @@ app.use((req, res, next) => {
     return res.end();
   }
 
-  next();
+  return next();
 });
 
 app.use(requestLogger);
@@ -50,10 +51,9 @@ app.use(requestLogger);
 app.use(bodyParser.json()); // для собирания JSON-формата
 app.use(bodyParser.urlencoded({ extended: true })); // для приёма веб-страниц внутри POST-запроса
 
-mongoose.connect('mongodb://localhost:27017/bitfilmsdb', {
+mongoose.connect(DB_ADDRESS, {
   useNewUrlParser: true,
 });
-
 
 app.post(
   '/signin',
@@ -87,7 +87,7 @@ app.use(errorLogger); // подключаем логгер ошибок
 
 app.use(errors()); // обработчик ошибок celebrate
 
-//централизованный обработчик ошибок
+// централизованный обработчик ошибок
 app.use((err, req, res, next) => {
   if (!err.statusCode) {
     res.status(500).send({ message: 'На сервере произошла ошибка' });

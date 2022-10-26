@@ -3,7 +3,10 @@
         "browser": true,
         "es2021": true
     },
-    "extends": "airbnb-base",
+    "extends": [
+        "airbnb-base",
+        "plugin:eslint-comments/recommended"
+    ],
     "overrides": [
     ],
     "parserOptions": {
@@ -13,6 +16,7 @@
     "plugins": [
     ],
     "rules": {
-      "no-underscore-dangle": ["error", {"allow":["_id"]}]
+      "no-underscore-dangle": ["error", {"allow":["_id"]}],
+      "eslint-comments/no-use": ["error", {"allow": []}]
     }
 }

@@ -6,13 +6,13 @@ const regularExp = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\.[a-zA-Z0-
 const {
   getMovies,
   createMovie,
-  deleteMovie
+  deleteMovie,
 } = require('../controllers/movie');
 
 movieRouter.get('/movies', getMovies);
 
-
-movieRouter.post('/movies',
+movieRouter.post(
+  '/movies',
   celebrate({
     body: Joi.object().keys({
       country: Joi.string().required(),
@@ -28,14 +28,17 @@ movieRouter.post('/movies',
       nameEN: Joi.string().required(),
     }),
   }),
-  createMovie);
+  createMovie,
+);
 
-movieRouter.delete('/movies/:_id',
+movieRouter.delete(
+  '/movies/:_id',
   celebrate({
     params: Joi.object().keys({
       movieId: Joi.string().required().length(24).hex(),
     }),
   }),
-  deleteMovie);
+  deleteMovie,
+);
 
 module.exports = movieRouter;
