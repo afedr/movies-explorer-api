@@ -34,7 +34,9 @@ module.exports.updateProfile = (req, res, next) => {
   })
     .then((user) => res.send(user))
     .catch((err) => {
-      if (err.name === 'ValidationError') {
+      if (err.codeName === 'DuplicateKey') {
+        next(new ConflictError('Такой емейл уже существует'));
+      } else if (err.name === 'ValidationError') {
         next(new ValidationError('Переданы некорретные данные'));
       } else {
         next(err);

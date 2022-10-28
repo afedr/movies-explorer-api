@@ -55,33 +55,14 @@ mongoose.connect(DB_ADDRESS, {
   useNewUrlParser: true,
 });
 
-app.post(
-  '/signin',
-  celebrate({
-    body: Joi.object().keys({
-      email: Joi.string().email().required(),
-      password: Joi.string().required(),
-    }),
-  }),
-  login,
-);
-
-app.post(
-  '/signup',
-  celebrate({
-    body: Joi.object().keys({
-      name: Joi.string().min(2).max(30),
-      email: Joi.string().email().required(),
-      password: Joi.string().required(),
-    }),
-  }),
-  createUser,
-);
+app.use(require('./routes/authorization'));
 
 app.use(auth);
 
-app.use('/', require('./routes/user'));
-app.use('/', require('./routes/movie'));
+app.use(require('./routes/user'));
+app.use(require('./routes/movie'));
+
+app.use(require('./routes/defaultRoute'));
 
 app.use(errorLogger); // подключаем логгер ошибок
 
