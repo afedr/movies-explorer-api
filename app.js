@@ -2,13 +2,13 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const { celebrate, Joi, errors } = require('celebrate');
-const { createUser, login } = require('./controllers/user');
-const auth = require('./middlewares/auth');
+const { errors } = require('celebrate');
+const router = require('./routes/index');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
+const errorHandler = require('./middlewares/errorHandler');
 
 const { PORT = 3000 } = process.env;
-const { DB_ADDRESS = 'mongodb://localhost:27017/bitfilmsdb' } = process.env;
+const { DB_ADDRESS = 'mongodb://localhost:27017/moviesdb' } = process.env;
 
 const app = express();
 
@@ -55,28 +55,13 @@ mongoose.connect(DB_ADDRESS, {
   useNewUrlParser: true,
 });
 
-app.use(require('./routes/authorization'));
-
-app.use(auth);
-
-app.use(require('./routes/user'));
-app.use(require('./routes/movie'));
-
-app.use(require('./routes/defaultRoute'));
+app.use(router);
 
 app.use(errorLogger); // подключаем логгер ошибок
 
 app.use(errors()); // обработчик ошибок celebrate
 
-// централизованный обработчик ошибок
-app.use((err, req, res, next) => {
-  if (!err.statusCode) {
-    res.status(500).send({ message: 'На сервере произошла ошибка' });
-  } else {
-    res.status(err.statusCode).send({ message: err.message });
-  }
-  next();
-});
+app.use(errorHandler);
 
 app.listen(PORT, () => {
   console.log(`App listening on port ${PORT}`);
